@@ -17,7 +17,7 @@ class DataManager : NoteInterface {
         }
     }
 
-    override fun delNote(realm: Realm, id: Int?): Boolean {
+    override fun delNote(realm: Realm, id: String?): Boolean {
         return try {
             realm.beginTransaction()
             realm.where(Notes :: class.java).equalTo("id", id).findFirst()?.deleteFromRealm()
@@ -29,15 +29,13 @@ class DataManager : NoteInterface {
         }
     }
 
-    override fun editNote(realm: Realm, notes: Notes): Boolean {
+    override fun editNote(realm: Realm, notes: Notes) {
         return try {
             realm.beginTransaction()
             realm.copyToRealmOrUpdate(notes)
             realm.commitTransaction()
-            true
         }catch (e:Exception){
             print(e)
-            false
         }
     }
 

@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_add_note.*
+import kotlin.math.floor
 
 class AddNoteAct : AppCompatActivity() {
     lateinit var realm: Realm
@@ -16,22 +17,38 @@ class AddNoteAct : AppCompatActivity() {
         setContentView(R.layout.activity_add_note)
         realm = Realm.getDefaultInstance()
         btn_add.setOnClickListener {
-            val currentIdNumber: Number? = realm.where(Notes::class.java).max("id")
-            val nextId: Int
-            nextId = if (currentIdNumber == null) {
-                1
-            } else {
-                currentIdNumber.toInt() + 1
-            }
+//            generateRandomPassword()
+//            Log.d("randomId",generateRandomPassword())
+//            val currentIdNumber: Number? = realm.where(Notes::class.java).max("id")
+//            val nextId: Int
+//            nextId = if (currentIdNumber == null) {
+//                1
+//            } else {
+//                currentIdNumber.toInt() + 1
+//            }
             val notes = Notes()
             notes.title = edt_title.text.toString()
             notes.description = edt_des.text.toString()
-            notes.id = nextId
+            notes.id = generateRandomPassword()
+            Log.d("notesId",notes.id)
             manager.addNote(realm, notes)
             Toast.makeText(this, "added", Toast.LENGTH_SHORT).show()
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
+    }
+    fun generateRandomPassword(): String {
+        val chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        var id = ""
+        var idSize = 0
+        for (i in 0..31) {
+            id += chars[floor(Math.random() * chars.length).toInt()]
+            idSize += 1
+            if(idSize >= 7 ){
+                return id
+            }
+        }
+        return id
     }
 
 //    private fun addToRealm() {

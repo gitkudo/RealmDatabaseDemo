@@ -11,6 +11,11 @@
         android:hint="@string/app_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/edt_des"
+        android:hint="@string/app_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <Button
         android:text="edit"
         android:id="@+id/btn_edit"

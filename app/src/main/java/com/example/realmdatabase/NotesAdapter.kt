@@ -33,7 +33,7 @@ class NotesAdapter(
        override fun onLongClick(v: View?): Boolean {
            val position = adapterPosition
            if (position != RecyclerView.NO_POSITION) {
-               listener.itemLongClick(position)
+               listener.itemLongClick(position, id.text as String)
            }
            return false
        }

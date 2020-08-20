@@ -3,6 +3,8 @@ package com.example.realmdatabase
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Parcelable
+import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -39,21 +41,20 @@ class MainActivity : AppCompatActivity(), itemClickKudo {
 
     override fun itemClick(position: Int) {
         val result: RealmResults<Notes> = realm.where<Notes>(Notes::class.java).findAll()
-        manager.delNote(realm, result[position]?.id)
+        manager.delNote(realm, result[position]?.id.toString())
         notesRcv.adapter!!.notifyDataSetChanged()
     }
 
-    override fun itemLongClick(position: Int) {
-        val result: RealmResults<Notes> = realm.where<Notes>(Notes::class.java).findAll()
+    override fun itemLongClick(position: Int,id:String) {
+        var notes: Notes? = realm.where<Notes>(Notes::class.java).equalTo("id",id).findFirst()
+//        val result = realm.where<Notes>(Notes::class.java).equalTo("id", notes.id).findFirst()!!
         var intent = Intent(this, EditAct::class.java)
-        intent.putExtra("obPosition",result[position]?.id)
+        intent.putExtra("objUpdate", notes)
         startActivity(intent)
-
     }
 
     override fun onResume() {
         super.onResume()
         notesRcv.adapter!!.notifyDataSetChanged()
     }
-
 }
